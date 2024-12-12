@@ -1,0 +1,12 @@
+fastapi[all] 
+uvicorn 
+sqlalchemy 
+pydantic 
+python-jose[cryptography] 
+passlib[bcrypt] 
+python-multipart 
+langsmith 
+google-cloud-aiplatform 
+python-dotenv 
+pytest 
+httpx
