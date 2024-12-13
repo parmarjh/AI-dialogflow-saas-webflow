@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from 'next/link';
 import { FaRobot, FaRoute, FaCode, FaCogs } from 'react-icons/fa';
+import Footer from '@/components/Footer';
+import Pricing from '@/components/Pricing';
 
 export default function Home() {
   const features = [
@@ -79,6 +81,9 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+        {/* Pricing Section */}
+        <Pricing />
       </main>
     </div>
   );
