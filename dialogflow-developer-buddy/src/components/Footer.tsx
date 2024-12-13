@@ -29,17 +29,17 @@ const Footer = () => {
     social: [
       {
         name: 'GitHub',
-        href: 'https://github.com',
+        href: 'https://github.com/Yash-Kavaiya',
         icon: FaGithub
       },
       {
         name: 'Twitter',
-        href: 'https://twitter.com',
+        href: 'https://x.com/Yash_Kavaiya_',
         icon: FaTwitter
       },
       {
         name: 'LinkedIn',
-        href: 'https://linkedin.com',
+        href: 'https://x.com/Yash_Kavaiya_',
         icon: FaLinkedin
       },
       {

@@ -33,8 +33,8 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <main>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <main className="flex-grow">
         {/* Hero Section */}
         <div className="bg-white">
           <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
@@ -85,6 +85,7 @@ export default function Home() {
         {/* Pricing Section */}
         <Pricing />
       </main>
+      <Footer />
     </div>
   );
 }
