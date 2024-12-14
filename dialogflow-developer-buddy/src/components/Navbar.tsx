@@ -11,6 +11,8 @@ const Navbar = () => {
     { name: 'Entities', path: '/entities' },
     { name: 'Routes', path: '/routes' },
     { name: 'Webhooks', path: '/webhooks' },
+    { name: 'Flow Generator', path: '/flowmaker' },
+    { name: 'Debugddy', path: '/debugdddy' },
   ];
 
   return (

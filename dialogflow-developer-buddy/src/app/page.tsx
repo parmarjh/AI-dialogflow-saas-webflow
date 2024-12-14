@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from 'next/link';
-import { FaRobot, FaRoute, FaCode, FaCogs } from 'react-icons/fa';
+import { FaRobot, FaRoute, FaCode, FaCogs, FaProjectDiagram, FaBug, FaComments, FaChartLine, FaVial, FaGraduationCap } from 'react-icons/fa';
 import Footer from '@/components/Footer';
 import Pricing from '@/components/Pricing';
 
@@ -29,6 +29,27 @@ export default function Home() {
       title: "Webhook Generator",
       description: "Create webhooks and fulfillment code",
       link: "/webhooks"
+    },{
+      icon: <FaProjectDiagram className="w-6 h-6" />,  // Instead of FaDiagram
+      title: "Flow Generator",
+      description: "Design and generate custom workflow diagrams with an intuitive interface",
+      link: "/flowmaker"
+    },
+    {
+      icon: <FaBug className="w-6 h-6" />,  // Instead of Bug
+      title: "Debugddy",
+      description: "Advanced debugging tool for tracking and resolving application issues",
+      link: "/debugdddy"
+    },{
+      icon: <FaChartLine className="w-6 h-6" />,
+      title: "Analytics Dashboard",
+      description: "Track and analyze chatbot performance metrics and user interactions",
+      link: "/analytics"
+    },{
+      icon: <FaVial className="w-6 h-6" />,
+      title: "Test Suite",
+      description: "Automated testing tools for validating chatbot responses and conversation flows",
+      link: "/test-suite"
     }
   ];
 

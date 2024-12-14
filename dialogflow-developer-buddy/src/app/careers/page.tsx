@@ -12,16 +12,16 @@ import {
 } from "react-icons/fa";
 import Footer from "@/components/Footer";
 
-// We'll start by defining our interfaces to ensure type safety
 interface JobPosition {
   id: string;
   title: string;
   department: string;
   location: string;
-  type: string; // "Full-time" | "Part-time" | "Contract"
+  type: string;
   experience: string;
   description: string;
   requirements: string[];
+  email: string;
 }
 
 interface Benefit {
@@ -31,7 +31,7 @@ interface Benefit {
 }
 
 export default function Careers() {
-  // Define company values that shape the work culture
+  // Company values remain the same as in your original code
   const companyValues = [
     {
       icon: <FaBrain className="w-6 h-6" />,
@@ -50,7 +50,7 @@ export default function Careers() {
     }
   ];
 
-  // Define company benefits
+  // Benefits remain the same as in your original code
   const benefits: Benefit[] = [
     {
       icon: <FaHeart className="w-6 h-6" />,
@@ -74,7 +74,7 @@ export default function Careers() {
     }
   ];
 
-  // Define open positions
+  // Updated open positions with all 5 roles
   const openPositions: JobPosition[] = [
     {
       id: "swe-001",
@@ -83,14 +83,34 @@ export default function Careers() {
       location: "Remote",
       type: "Full-time",
       experience: "5+ years",
-      description: "Join our core team building the next generation of AI-powered developer tools.",
+      description: "Lead our frontend development team in building cutting-edge AI-powered developer tools. You'll be responsible for architecture decisions, mentoring junior developers, and implementing complex features.",
       requirements: [
         "Extensive experience with React and Next.js",
-        "Strong TypeScript skills",
-        "Experience with state management solutions",
-        "Understanding of modern CSS practices and Tailwind",
-        "Background in building developer tools is a plus"
-      ]
+        "Strong TypeScript skills and system design experience",
+        "Proven track record of leading frontend projects",
+        "Experience with modern state management and testing practices",
+        "Strong understanding of web performance optimization",
+        "Ability to mentor junior developers and review code"
+      ],
+      email: "yash.kavaiya3@gmail.com"
+    },
+    {
+      id: "swe-002",
+      title: "Junior Frontend Developer",
+      department: "Engineering",
+      location: "Remote / Hybrid",
+      type: "Full-time",
+      experience: "1-2 years",
+      description: "Join our frontend team and help build user interfaces for our AI-powered developer tools. This is an excellent opportunity to grow your skills while working with modern technologies.",
+      requirements: [
+        "Basic proficiency with React and JavaScript",
+        "Familiarity with TypeScript and modern CSS",
+        "Understanding of responsive design principles",
+        "Knowledge of version control with Git",
+        "Strong desire to learn and grow as a developer",
+        "Computer Science degree or equivalent practical experience"
+      ],
+      email: "yash.kavaiya3@gmail.com"
     },
     {
       id: "ml-001",
@@ -99,19 +119,59 @@ export default function Careers() {
       location: "Remote",
       type: "Full-time",
       experience: "3+ years",
-      description: "Help us improve our AI models for better intent recognition and entity extraction.",
+      description: "Work on improving our AI models for intent recognition and entity extraction. You'll be at the forefront of applying machine learning to developer tools.",
       requirements: [
         "Strong background in NLP and machine learning",
-        "Experience with modern ML frameworks",
-        "Understanding of chatbot architectures",
+        "Experience with PyTorch or TensorFlow",
+        "Understanding of transformer architectures",
         "Familiarity with Dialogflow or similar platforms",
-        "Published research papers are a plus"
-      ]
+        "Track record of deploying ML models to production",
+        "MS/PhD in Computer Science or related field preferred"
+      ],
+      email: "yash.kavaiya3@gmail.com"
+    },
+    {
+      id: "swe-003",
+      title: "Frontend Developer Intern",
+      department: "Engineering",
+      location: "Remote",
+      type: "Internship (6 months)",
+      experience: "No prior experience required",
+      description: "Gain hands-on experience in frontend development while working on real-world AI-powered developer tools. You'll be mentored by experienced developers and contribute to meaningful projects.",
+      requirements: [
+        "Currently pursuing a degree in Computer Science or related field",
+        "Basic knowledge of HTML, CSS, and JavaScript",
+        "Familiarity with React is a plus",
+        "Strong problem-solving skills",
+        "Eager to learn modern web development practices",
+        "Good communication skills and ability to work in a team"
+      ],
+      email: "yash.kavaiya3@gmail.com"
+    },
+    {
+      id: "qa-001",
+      title: "Junior QA Engineer",
+      department: "Quality Assurance",
+      location: "Remote / Hybrid",
+      type: "Full-time",
+      experience: "0-2 years",
+      description: "Join our QA team to ensure the quality of our AI-powered developer tools. You'll work on automated testing, bug tracking, and quality assurance processes.",
+      requirements: [
+        "Basic understanding of software testing principles",
+        "Familiarity with automated testing frameworks",
+        "Knowledge of bug tracking systems",
+        "Basic programming skills in any language",
+        "Attention to detail and analytical mindset",
+        "Excellent documentation and communication skills"
+      ],
+      email: "yash.kavaiya3@gmail.com"
     }
   ];
 
+  // Rest of your component remains the same, including the return statement and all sections
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Your existing JSX structure remains unchanged */}
       <main className="flex-grow">
         {/* Hero Section */}
         <div className="bg-white">
@@ -192,7 +252,7 @@ export default function Careers() {
                 className="bg-white shadow-sm hover:shadow-lg transition-shadow duration-200 rounded-lg p-6"
               >
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start">
-                  <div>
+                  <div className="flex-grow">
                     <h3 className="text-xl font-semibold text-gray-900">
                       {position.title}
                     </h3>
@@ -215,8 +275,11 @@ export default function Careers() {
                         ))}
                       </ul>
                     </div>
+                    <p className="mt-4 text-sm text-gray-500">
+                      Contact: {position.email}
+                    </p>
                   </div>
-                  <div className="mt-4 sm:mt-0">
+                  <div className="mt-4 sm:mt-0 sm:ml-4 flex-shrink-0">
                     <Link 
                       href={`/careers/apply/${position.id}`}
                       className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

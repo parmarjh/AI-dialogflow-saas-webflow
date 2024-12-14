@@ -39,12 +39,12 @@ const Footer = () => {
       },
       {
         name: 'LinkedIn',
-        href: 'https://x.com/Yash_Kavaiya_',
+        href: 'https://linkedin.com/in/yashkavaiya',
         icon: FaLinkedin
       },
       {
         name: 'Discord',
-        href: 'https://discord.com',
+        href: 'https://discord.gg/QfRd4S9A',
         icon: FaDiscord
       },
     ],
