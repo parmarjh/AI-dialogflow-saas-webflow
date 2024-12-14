@@ -13,6 +13,8 @@ const Navbar = () => {
     { name: 'Webhooks', path: '/webhooks' },
     { name: 'Flow Generator', path: '/flowmaker' },
     { name: 'Debugddy', path: '/debugdddy' },
+    { name: 'Analytics',path: '/analytics'},
+    { name: 'Test Suite',path: '/testsuite' }
   ];
 
   return (
