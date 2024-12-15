@@ -30,13 +30,13 @@ export default function Home() {
       description: "Create webhooks and fulfillment code",
       link: "/webhooks"
     },{
-      icon: <FaProjectDiagram className="w-6 h-6" />,  // Instead of FaDiagram
+      icon: <FaProjectDiagram className="w-6 h-6" />,
       title: "Flow Generator",
       description: "Design and generate custom workflow diagrams with an intuitive interface",
       link: "/flowmaker"
     },
     {
-      icon: <FaBug className="w-6 h-6" />,  // Instead of Bug
+      icon: <FaBug className="w-6 h-6" />,
       title: "Debugddy",
       description: "Advanced debugging tool for tracking and resolving application issues",
       link: "/debugdddy"
