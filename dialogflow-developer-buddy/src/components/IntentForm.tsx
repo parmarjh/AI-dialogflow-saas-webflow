@@ -1,9 +1,8 @@
-
 // components/IntentForm.tsx
 "use client";
 
 import React, { useState } from 'react';
-import { Trash2Icon, PlusCircleIcon, DownloadIcon } from 'lucide-react';
+import { Trash2Icon, PlusCircleIcon, DownloadIcon, PencilIcon, CheckIcon, XIcon } from 'lucide-react';
 
 interface Intent {
   id: string;
@@ -15,6 +14,8 @@ const IntentForm = () => {
   const [intents, setIntents] = useState<Intent[]>([]);
   const [loading, setLoading] = useState(false);
   const [newIntent, setNewIntent] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editText, setEditText] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +54,26 @@ const IntentForm = () => {
 
   const handleRemoveIntent = (id: string) => {
     setIntents(intents.filter(intent => intent.id !== id));
+  };
+
+  const startEditing = (intent: Intent) => {
+    setEditingId(intent.id);
+    setEditText(intent.text);
+  };
+
+  const cancelEditing = () => {
+    setEditingId(null);
+    setEditText('');
+  };
+
+  const saveEdit = (id: string) => {
+    if (editText.trim()) {
+      setIntents(intents.map(intent =>
+        intent.id === id ? { ...intent, text: editText.trim() } : intent
+      ));
+      setEditingId(null);
+      setEditText('');
+    }
   };
 
   const exportToCSV = () => {
@@ -130,13 +151,47 @@ const IntentForm = () => {
               key={intent.id}
               className="flex items-center justify-between p-4 bg-white rounded-lg shadow"
             >
-              <p className="flex-grow">{intent.text}</p>
-              <button
-                onClick={() => handleRemoveIntent(intent.id)}
-                className="ml-4 p-2 text-red-600 hover:text-red-800"
-              >
-                <Trash2Icon className="w-5 h-5" />
-              </button>
+              {editingId === intent.id ? (
+                <div className="flex-grow flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                    className="flex-grow px-3 py-1 border rounded"
+                    autoFocus
+                  />
+                  <button
+                    onClick={() => saveEdit(intent.id)}
+                    className="p-1 text-green-600 hover:text-green-800"
+                  >
+                    <CheckIcon className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={cancelEditing}
+                    className="p-1 text-gray-600 hover:text-gray-800"
+                  >
+                    <XIcon className="w-5 h-5" />
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <p className="flex-grow">{intent.text}</p>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => startEditing(intent)}
+                      className="p-2 text-blue-600 hover:text-blue-800"
+                    >
+                      <PencilIcon className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => handleRemoveIntent(intent.id)}
+                      className="p-2 text-red-600 hover:text-red-800"
+                    >
+                      <Trash2Icon className="w-5 h-5" />
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>
