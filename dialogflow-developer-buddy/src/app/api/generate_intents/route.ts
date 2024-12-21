@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const token = process.env["GITHUB_TOKEN"];
-const endpoint = "https://models.inference.ai.azure.com";
-const modelName = "gpt-4o";
+// Environment Configuration
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const MODEL_NAME = "gemini-1.5-flash";
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,30 +20,30 @@ export async function POST(request: NextRequest) {
 }
 
 async function generateSimilarIntents(input: string): Promise<string[]> {
-  const client = new OpenAI({ baseURL: endpoint, apiKey: token });
-  
+  // Initialize Gemini AI
+  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY!);
+  const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+
+  // Construct prompt
   const prompt = `Generate 10 similar but varied intents for the following user input: "${input}"
-  The variations should maintain the core meaning but use different wording, perspective, or context.
-  Return only the variations, one per line, without numbering or additional text.`;
+    The variations should maintain the core meaning but use different wording, perspective, or context.
+    Return only the variations, one per line, without numbering or additional text.`;
 
-  const response = await client.chat.completions.create({
-    messages: [
-      { role: "system", content: "You are a helpful assistant specialized in generating intent variations while maintaining semantic meaning." },
-      { role: "user", content: prompt }
-    ],
-    temperature: 0.8, // Slightly lower than 1.0 to maintain some consistency
-    top_p: 1.0,
-    max_tokens: 1000,
-    model: modelName
-  });
+  try {
+    // Generate content using Gemini
+    const result = await model.generateContent(prompt);
+    const generatedText = result.response.text();
 
-  // Split the response into individual intents and clean up
-  const generatedText = response.choices[0].message.content || '';
-  const intents = generatedText
-    .split('\n')
-    .map(intent => intent.trim())
-    .filter(intent => intent.length > 0)
-    .slice(0, 10); // Ensure we only return 10 intents
+    // Process and clean up the response
+    const intents = generatedText
+      .split('\n')
+      .map(intent => intent.trim())
+      .filter(intent => intent.length > 0)
+      .slice(0, 10); // Ensure we only return 10 intents
 
-  return intents;
+    return intents;
+  } catch (error) {
+    console.error('Gemini API Error:', error);
+    throw error;
+  }
 }
