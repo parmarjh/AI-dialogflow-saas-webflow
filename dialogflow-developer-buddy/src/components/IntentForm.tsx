@@ -16,6 +16,7 @@ const IntentForm = () => {
   const [newIntent, setNewIntent] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState('');
+  const [showProBanner, setShowProBanner] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,10 +32,20 @@ const IntentForm = () => {
       });
 
       const data = await response.json();
-      setIntents(data.intents.map((text: string) => ({
+      const newIntents = data.intents.map((text: string) => ({
         id: Math.random().toString(36).substr(2, 9),
         text
-      })));
+      }));
+
+      // Check if the total number of intents would exceed the free limit
+      if (intents.length + newIntents.length > 10) {
+        setShowProBanner(true);
+        // Only add intents up to the free limit
+        const allowedNewIntents = newIntents.slice(0, 10 - intents.length);
+        setIntents([...intents, ...allowedNewIntents]);
+      } else {
+        setIntents([...intents, ...newIntents]);
+      }
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -93,6 +104,17 @@ const IntentForm = () => {
 
   return (
     <div className="max-w-3xl mx-auto">
+      {showProBanner && (
+        <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-blue-800">
+            <span className="font-semibold">Upgrade to Pro! </span>
+            You've reached the free limit of 10 intents. Get the Pro plan to generate 25+ intents and unlock more features.
+            <a href="/pricing" className="ml-2 text-blue-600 hover:text-blue-800 underline">
+              Learn More
+            </a>
+          </p>
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="mb-8 space-y-4">
         <div className="flex flex-col gap-2">
           <label htmlFor="userInput" className="font-medium">

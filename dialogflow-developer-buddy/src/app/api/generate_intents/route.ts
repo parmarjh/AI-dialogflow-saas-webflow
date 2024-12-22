@@ -7,6 +7,13 @@ const MODEL_NAME = "gemini-1.5-flash";
 
 export async function POST(request: NextRequest) {
   try {
+    if (!GEMINI_API_KEY) {
+      return NextResponse.json({
+        error: 'API key not configured. We are looking for funding to maintain this project. Please support us at https://github.com/Yash-Kavaiya',
+        type: 'CONFIGURATION_ERROR'
+      }, { status: 500 });
+    }
+
     const { userInput } = await request.json();
     const intents = await generateSimilarIntents(userInput);
     return NextResponse.json({ intents });
