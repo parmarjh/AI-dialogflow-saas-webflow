@@ -1,9 +1,11 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -13,8 +15,8 @@ const Navbar = () => {
     { name: 'Webhooks', path: '/webhooks' },
     { name: 'Flow Generator', path: '/flowmaker' },
     { name: 'Debugddy', path: '/debugdddy' },
-    { name: 'Analytics',path: '/analytics'},
-    { name: 'Test Suite',path: '/testsuite' }
+    { name: 'Analytics', path: '/analytics' },
+    { name: 'Test Suite', path: '/testsuite' }
   ];
 
   return (
@@ -44,12 +46,29 @@ const Navbar = () => {
             </div>
           </div>
           <div className="flex items-center">
-            <Link
-              href="/login"
-              className="ml-8 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-            >
-              Login
-            </Link>
+            {session ? (
+              <button
+                onClick={() => signOut()}
+                className="ml-8 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <>
+                <Link
+                  href="/signin"
+                  className="ml-8 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/signup"
+                  className="ml-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-indigo-600 bg-white hover:bg-gray-100"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
