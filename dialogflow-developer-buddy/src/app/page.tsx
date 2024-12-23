@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { FaRobot, FaRoute, FaCode, FaCogs, FaProjectDiagram, FaBug, FaComments, FaChartLine, FaVial, FaGraduationCap } from 'react-icons/fa';
 import Footer from '@/components/Footer';
 import Pricing from '@/components/Pricing';
-
 export default function Home() {
   const features = [
     {

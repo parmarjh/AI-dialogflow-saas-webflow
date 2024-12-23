@@ -1,36 +1,33 @@
 import NextAuth from 'next-auth';
-import Providers from 'next-auth/providers';
+import CredentialsProvider from 'next-auth/providers/credentials';
 
 export default NextAuth({
   providers: [
-    Providers.Credentials({
+    CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' }
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" }
       },
-      authorize: async (credentials) => {
-        // Add your own logic here to find the user from the credentials supplied
-        const user = { id: 1, name: 'User', email: credentials.email };
-
-        if (user) {
-          return Promise.resolve(user);
-        } else {
-          return Promise.resolve(null);
+      async authorize(credentials) {
+        // Add your authentication logic here
+        // This is a simple example - you should implement proper authentication
+        if (credentials?.email === "test@example.com" && credentials?.password === "password") {
+          return {
+            id: "1",
+            email: credentials.email,
+            name: "Test User"
+          }
         }
+        return null;
       }
     })
   ],
-  callbacks: {
-    async jwt(token, user) {
-      if (user) {
-        token.id = user.id;
-      }
-      return token;
-    },
-    async session(session, token) {
-      session.user.id = token.id;
-      return session;
-    }
-  }
+  pages: {
+    signIn: '/signin',
+  },
+  session: {
+    strategy: 'jwt',
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 });
