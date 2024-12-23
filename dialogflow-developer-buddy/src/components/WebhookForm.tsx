@@ -1,13 +1,26 @@
 'use client';
 import React, { useState } from 'react';
 import axios from 'axios';
-import { FaCopy, FaCode, FaCheckCircle } from 'react-icons/fa';
+import { FaCopy, FaCode, FaCheckCircle, FaDownload, FaLightbulb } from 'react-icons/fa';
 
 interface WebhookFormData {
   description: string;
   platform: string;
   language: string;
 }
+
+const sampleWebhooks = [
+  {
+    description: "Create a webhook that fetches real-time weather data based on the user's city. The webhook should handle different weather conditions and return appropriate responses with temperature, humidity, and weather description.",
+    platform: "cloud-functions",
+    language: "nodejs"
+  },
+  {
+    description: "Build a webhook that integrates with a ticket booking system. It should check seat availability, handle ticket reservations, and return booking confirmation details including price, seat number, and booking reference.",
+    platform: "cloud-run",
+    language: "python"
+  }
+];
 
 const WebhookForm: React.FC = () => {
   const [formData, setFormData] = useState<WebhookFormData>({
@@ -19,6 +32,7 @@ const WebhookForm: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
+  const [showExamples, setShowExamples] = useState(false);
 
   const platforms = [
     { value: 'cloud-run', label: 'Google Cloud Run' },
@@ -59,11 +73,72 @@ const WebhookForm: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleDownload = () => {
+    if (!generatedCode) return;
+    
+    const fileExtension = getFileExtension(formData.language);
+    const fileName = `webhook.${fileExtension}`;
+    const blob = new Blob([generatedCode], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  };
+
+  const getFileExtension = (language: string): string => {
+    const extensions: Record<string, string> = {
+      nodejs: 'js',
+      python: 'py',
+      java: 'java',
+      go: 'go'
+    };
+    return extensions[language] || 'txt';
+  };
+
+  const loadExample = (index: number) => {
+    setFormData(sampleWebhooks[index]);
+    setShowExamples(false);
+  };
+
   return (
     <div className="max-w-4xl mx-auto mt-8">
       <div className="bg-white shadow-xl rounded-lg p-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6">Webhook Generator</h2>
-        
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-gray-800">Webhook Generator</h2>
+          <button
+            onClick={() => setShowExamples(!showExamples)}
+            className="flex items-center px-4 py-2 text-sm text-indigo-600 hover:bg-indigo-50 rounded-md transition-colors duration-200"
+          >
+            <FaLightbulb className="mr-2" />
+            View Examples
+          </button>
+        </div>
+
+        {showExamples && (
+          <div className="mb-6 space-y-4">
+            <h3 className="text-lg font-medium text-gray-900">Sample Webhooks</h3>
+            <div className="grid gap-4">
+              {sampleWebhooks.map((example, index) => (
+                <div 
+                  key={index}
+                  className="p-4 border border-gray-200 rounded-lg hover:border-indigo-300 cursor-pointer transition-colors duration-200"
+                  onClick={() => loadExample(index)}
+                >
+                  <p className="text-sm text-gray-600">{example.description}</p>
+                  <div className="mt-2 flex items-center text-xs text-gray-500">
+                    <span className="mr-3">{example.platform}</span>
+                    <span>{example.language}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -141,22 +216,31 @@ const WebhookForm: React.FC = () => {
           <div className="mt-8">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">Generated Code</h3>
-              <button
-                onClick={handleCopy}
-                className="flex items-center px-3 py-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors duration-200"
-              >
-                {copied ? (
-                  <>
-                    <FaCheckCircle className="mr-2" />
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <FaCopy className="mr-2" />
-                    Copy Code
-                  </>
-                )}
-              </button>
+              <div className="flex space-x-4">
+                <button
+                  onClick={handleCopy}
+                  className="flex items-center px-3 py-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors duration-200"
+                >
+                  {copied ? (
+                    <>
+                      <FaCheckCircle className="mr-2" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <FaCopy className="mr-2" />
+                      Copy Code
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={handleDownload}
+                  className="flex items-center px-3 py-1 text-sm text-indigo-600 hover:text-indigo-800 transition-colors duration-200"
+                >
+                  <FaDownload className="mr-2" />
+                  Download Code
+                </button>
+              </div>
             </div>
             <div className="relative">
               <pre className="bg-gray-50 rounded-lg p-4 overflow-x-auto">
