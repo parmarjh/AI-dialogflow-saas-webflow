@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { FaUsers, FaRobot, FaClock, FaChartLine, FaExclamationTriangle } from 'react-icons/fa';
+import { FaUsers, FaRobot, FaClock, FaExclamationTriangle, FaSmile, FaPhoneVolume, FaShieldAlt, FaHeadset, FaExchangeAlt } from 'react-icons/fa';
 import {
   BarChart,
   Bar,
@@ -12,6 +12,9 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
 } from 'recharts';
 
 const mockData = {
@@ -29,7 +32,29 @@ const mockData = {
     { name: 'Pricing Questions', count: 280 },
     { name: 'Order Status', count: 250 },
   ],
+  csatTrends: [
+    { date: '2023-07-01', score: 4.2 },
+    { date: '2023-07-02', score: 4.5 },
+    { date: '2023-07-03', score: 4.3 },
+    { date: '2023-07-04', score: 4.6 },
+    { date: '2023-07-05', score: 4.7 },
+  ],
+  transferDistribution: [
+    { name: 'Self Served', value: 785 },
+    { name: 'Technical Support', value: 120 },
+    { name: 'Billing Support', value: 80 },
+    { name: 'Sales Team', value: 45 },
+  ],
+  responseTimes: [
+    { time: '0-1s', count: 450 },
+    { time: '1-2s', count: 320 },
+    { time: '2-3s', count: 180 },
+    { time: '3-4s', count: 90 },
+    { time: '4s+', count: 40 },
+  ],
 };
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default function AnalyticsPage() {
   const [timeRange, setTimeRange] = useState('7d');
@@ -59,6 +84,30 @@ export default function AnalyticsPage() {
       change: '-2.1%',
       icon: <FaExclamationTriangle className="h-6 w-6 text-yellow-500" />,
     },
+    {
+      title: 'CSAT Score',
+      value: '4.5/5',
+      change: '+0.2',
+      icon: <FaSmile className="h-6 w-6 text-green-600" />,
+    },
+    {
+      title: 'Avg Handle Time',
+      value: '3m 45s',
+      change: '-30s',
+      icon: <FaPhoneVolume className="h-6 w-6 text-blue-600" />,
+    },
+    {
+      title: 'Containment Rate',
+      value: '78.5%',
+      change: '+5.2%',
+      icon: <FaShieldAlt className="h-6 w-6 text-indigo-500" />,
+    },
+    {
+      title: 'Transfer Rate',
+      value: '21.5%',
+      change: '-5.2%',
+      icon: <FaExchangeAlt className="h-6 w-6 text-red-500" />,
+    }
   ];
 
   return (
@@ -132,6 +181,67 @@ export default function AnalyticsPage() {
                 <BarChart data={mockData.topIntents}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="count" fill="#6366F1" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* CSAT Trends */}
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">CSAT Trends</h2>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={mockData.csatTrends}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis domain={[0, 5]} />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="score" stroke="#10B981" />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Transfer Distribution */}
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Agent Transfer Distribution</h2>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={mockData.transferDistribution}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={true}
+                    label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {mockData.transferDistribution.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Response Time Distribution */}
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h2 className="text-lg font-medium text-gray-900 mb-4">Response Time Distribution</h2>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={mockData.responseTimes}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="time" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
