@@ -9,6 +9,34 @@ interface Intent {
   text: string;
 }
 
+interface Example {
+  input: string;
+  outputs: string[];
+}
+
+const exampleIntents: Example[] = [
+  {
+    input: "I want to book a flight",
+    outputs: [
+      "Book me a plane ticket",
+      "I need to reserve a flight",
+      "Help me find flight tickets",
+      "Looking for available flights",
+      "Can you assist with flight booking"
+    ]
+  },
+  {
+    input: "What's the weather like?",
+    outputs: [
+      "Tell me the weather forecast",
+      "Is it going to rain today?",
+      "What's the temperature outside",
+      "How's the weather looking",
+      "Check weather conditions"
+    ]
+  }
+];
+
 const IntentForm = () => {
   const [userInput, setUserInput] = useState('');
   const [intents, setIntents] = useState<Intent[]>([]);
@@ -17,6 +45,15 @@ const IntentForm = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editText, setEditText] = useState('');
   const [showProBanner, setShowProBanner] = useState(false);
+
+  const loadExample = (example: Example) => {
+    setUserInput(example.input);
+    const exampleIntents = example.outputs.map(text => ({
+      id: Math.random().toString(36).substr(2, 9),
+      text
+    }));
+    setIntents(exampleIntents);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -104,6 +141,23 @@ const IntentForm = () => {
 
   return (
     <div className="max-w-3xl mx-auto">
+      {/* Examples Section */}
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Examples</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {exampleIntents.map((example, index) => (
+            <div 
+              key={index}
+              className="p-4 bg-white rounded-lg shadow cursor-pointer hover:bg-gray-50"
+              onClick={() => loadExample(example)}
+            >
+              <p className="font-medium mb-2">Input: "{example.input}"</p>
+              <p className="text-sm text-gray-600">Click to load {example.outputs.length} similar intents</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {showProBanner && (
         <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <p className="text-blue-800">
