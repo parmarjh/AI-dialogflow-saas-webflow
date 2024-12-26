@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { FormEvent } from 'react';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -9,7 +10,7 @@ const Signup = () => {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       setError('Passwords do not match');
