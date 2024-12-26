@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { FormEvent } from 'react';
 
 const Signin = () => {
   const [email, setEmail] = useState('');
@@ -8,7 +9,7 @@ const Signin = () => {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const result = await signIn('credentials', {
       redirect: false,
@@ -16,7 +17,7 @@ const Signin = () => {
       password,
     });
 
-    if (result.error) {
+    if (result?.error) {
       setError('Invalid email or password');
     } else {
       router.push('/dashboard');
