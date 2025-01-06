@@ -65,7 +65,7 @@ P.S. Early supporters get special recognition and exclusive access to upcoming f
 ![Home](./images/Intents.png)
 ![Home](./images/Routes.png)
 ![Home](./images/webhooks.png)
-@Yash-Kavaiya
+@Yash-Kavaiya @Jatinkumar parmar
 
 
 
