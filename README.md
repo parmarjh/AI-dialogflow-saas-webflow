@@ -100,6 +100,24 @@ npm start
 
 Access the application at `http://localhost:3000`.
 
+## Docker
+
+To build and run the Docker container:
+
+1. Build the Docker image:
+
+```bash
+docker build -t dialogflow-saas .
+```
+
+2. Run the Docker container:
+
+```bash
+docker run -p 3000:3000 dialogflow-saas
+```
+
+Access the application at `http://localhost:3000`.
+
 ## Screenshots
 
 ![Dashboard](./images/dashboard.png)
