@@ -85,7 +85,7 @@ Dialogflow SaaS is a platform that enables developers to create, manage, and int
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/yourusername/dialogflow-saas.git
+git clone https://github.com/parmarjh/dialogflow-saas.git
 cd dialogflow-saas
 npm install
 ```
