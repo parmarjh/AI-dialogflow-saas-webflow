@@ -6,23 +6,23 @@ export default function Contact() {
     {
       icon: <FaEnvelope className="w-6 h-6" />,
       title: "Email",
-      value: "yash.kavaiya3@gmail.com",
+      value: "parmarjatin4911@gmail.com",
       description: "Send me an email for business inquiries or technical support.",
-      link: "mailto:yash.kavaiya3@gmail.com"
+      link: "mailto:parmarjatin4911@gmail.com"
     },
     {
       icon: <FaGithub className="w-6 h-6" />,
       title: "GitHub",
-      value: "github.com/Yash-Kavaiya",
+      value: "github.com/parmarjh",
       description: "Check out our open-source contributions and project repositories.",
-      link: "https://github.com/Yash-Kavaiya"
+      link: "https://github.com/parmarjh"
     },
     {
       icon: <FaLinkedin className="w-6 h-6" />,
       title: "LinkedIn",
-      value: "linkedin.com/in/yashkavaiya",
+      value: "linkedin.com/in/jhparmar",
       description: "Connect with me professionally on LinkedIn.",
-      link: "https://linkedin.com/in/yashkavaiya"}
+      link: "https://linkedin.com/in/jhparmar"}
   ];
 
   return (
